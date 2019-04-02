@@ -33,7 +33,7 @@
     transition-duration: 0.2s;
     height: 50vmin;
     width: 50vmin;
-    font-size: 10vmin;
+    font-size: 18vmin;
     text-align: center;
     display: inline-block;
     vertical-align: middle;
@@ -120,7 +120,7 @@ function reward(ms){
 function tease(){
   var score = get_score();
   var basetime = Math.max(10000, score*2000)/2; //10s to 1min/30spanks
-  var basebreak = Math.min(score*1000+1000, 30000); //1s/spank to 30s
+  var basebreak = Math.min(score*1000+1000, 20000); //1s/spank to 20s
   var segments = Math.floor(Math.random() * 10)+1;
   var i;
   var patt = [];
@@ -188,7 +188,7 @@ $('.resetbtn').on('click', function() {
       $("#spanksleft").html(0);
       $("#spankscount").html(total_spanks);
       alert('Good girls get rewarded!');
-      reward( Math.min(1000*current_spanks, 20000) );
+      reward(1000*current_spanks);
     }, 700);
   }
 });
