@@ -103,6 +103,14 @@ function unfreeze(){
   $('.resetbtn').attr('disabled', false);
 }
 
+function reward(ms){
+  freeze();
+  window.navigator.vibrate(ms);
+  setTimeout(function(){
+    unfreeze();
+  }, ms);
+}
+
 function randspanks(){
   freeze();
   var spanks = Math.floor(Math.random() * 10)+1;
@@ -140,8 +148,7 @@ $('.resetbtn').on('click', function() {
       $("#spanksleft").html(0);
       $("#spankscount").html(total_spanks);
       alert('Good girls get rewarded!');
-      window.navigator.vibrate(1000*current_spanks);
-      unfreeze();
+      reward(1000*current_spanks);
     }, 700);
   }
 });
