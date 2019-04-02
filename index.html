@@ -109,11 +109,12 @@ function get_score(){
 function reward(ms){
   freeze();
   $(".pinkbtn").html("Rewarding, you can cum");
-  window.navigator.vibrate(ms);
+  var patt = [ms, 250,500,250,500]
+  window.navigator.vibrate(patt);
   setTimeout(function(){
     $(".pinkbtn").html("Please...");
     unfreeze();
-  }, ms);
+  }, ms+250+500+250+500);
 }
 
 function tease(){
@@ -133,6 +134,7 @@ function tease(){
   }
   var totaltime = totaltime + realtime;
   patt.push(realtime);
+  patt.push(500,250,500,250);
   freeze();
   $(".pinkbtn").html("Teasing, no cumming!");
   console.log(totaltime+'ms teasing - '+segments+' sessions');
