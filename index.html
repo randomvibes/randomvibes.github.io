@@ -102,13 +102,45 @@ function unfreeze(){
   $('.pinkbtn').attr('disabled', false);
   $('.resetbtn').attr('disabled', false);
 }
+function get_score(){
+  return parseInt($("#spankscount").html());
+}
 
 function reward(ms){
   freeze();
+  $(".pinkbtn").html("Rewarding");
   window.navigator.vibrate(ms);
   setTimeout(function(){
+    $(".pinkbtn").html("Please...");
     unfreeze();
   }, ms);
+}
+
+function tease(){
+  var score = get_score();
+  var basetime = Math.max(10000, score*2000)/2; //10s to 1min/30spanks
+  var basebreak = Math.min(score*1000+1000, 30000); //1s/spank to 30s
+  var segments = Math.floor(Math.random() * 10)+1;
+  var i;
+  var patt = [];
+  var totaltime = 0;
+  for(i=0; i<segments; ++i){
+    var realtime = Math.max(1000, Math.random()*basetime);
+    var realbreak = Math.max(1000, Math.random()*basebreak); //minimum 1s break
+    var totaltime = totaltime + realtime;
+    var totaltime = totaltime + realbreak;
+    patt.push(realtime, realbreak);
+  }
+  var totaltime = totaltime + realtime;
+  patt.push(realtime);
+  freeze();
+  $(".pinkbtn").html("Teasing");
+  console.log(totaltime+'ms teasing - '+segments+' sessions');
+  window.navigator.vibrate(patt);
+  setTimeout(function(){
+    $(".pinkbtn").html("Please...");
+    unfreeze();
+  }, totaltime);
 }
 
 function randspanks(){
@@ -127,7 +159,12 @@ function randspanks(){
 }
 
 $('.pinkbtn').on('click', function() {
-  randspanks();
+  var fate = Math.random();
+  if(fate<=0.4){
+    randspanks();
+  }else {
+    tease()
+  }
 });
 </script>
 
@@ -138,7 +175,7 @@ $('.resetbtn').on('click', function() {
   var answer = confirm(msg);
   if(answer == true){
     freeze();
-    var previous_spanks = parseInt($("#spankscount").html());
+    var previous_spanks = get_score();
     var total_spanks = current_spanks+previous_spanks;
     var score = $('<span class="plus-one"/>', {style: 'display:none'});
     score.html('-'+current_spanks);
@@ -148,7 +185,7 @@ $('.resetbtn').on('click', function() {
       $("#spanksleft").html(0);
       $("#spankscount").html(total_spanks);
       alert('Good girls get rewarded!');
-      reward(1000*current_spanks);
+      reward( Math.min(1000*current_spanks, 20000) );
     }, 700);
   }
 });
