@@ -108,7 +108,7 @@ function get_score(){
 
 function reward(ms){
   freeze();
-  $(".pinkbtn").html("Rewarding");
+  $(".pinkbtn").html("Rewarding, you can cum");
   window.navigator.vibrate(ms);
   setTimeout(function(){
     $(".pinkbtn").html("Please...");
@@ -134,7 +134,7 @@ function tease(){
   var totaltime = totaltime + realtime;
   patt.push(realtime);
   freeze();
-  $(".pinkbtn").html("Teasing");
+  $(".pinkbtn").html("Teasing, no cumming!");
   console.log(totaltime+'ms teasing - '+segments+' sessions');
   window.navigator.vibrate(patt);
   setTimeout(function(){
@@ -160,7 +160,7 @@ function randspanks(){
 
 $('.pinkbtn').on('click', function() {
   var fate = Math.random();
-  if(fate<=0.4){
+  if(fate<=0.55){
     randspanks();
   }else {
     tease()
