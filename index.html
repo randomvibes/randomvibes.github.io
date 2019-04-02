@@ -1,19 +1,151 @@
+
 <!doctype html>
 
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <title>Random vibe</title>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <style type="text/css">
+  body,
+  html {
+    font-family: "Raleway";
+    box-sixing: border-box;
+    background-color:#590468;
+    color: #ffffff;
+  }
+
+  .container {
+    height: 60vh;
+    width: 60vw;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+    text-align: center;
+    font-size: 5vmin;
+  }
+
+  .pinkbtn {
+    color: #ffffff;
+    background: #e23fff;
+    background-color:#e23fff;
+    -webkit-transition-duration: 0.2s;
+    transition-duration: 0.2s;
+    height: 50vmin;
+    width: 50vmin;
+    font-size: 10vmin;
+    text-align: center;
+    display: inline-block;
+    vertical-align: middle;
+    transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
+  }
+
+  .pinkbtn:hover {
+    background: #3498db, 100%;
+  }
+
+  .plus-one {
+    color: #ffffff;
+    position: absolute;
+    animation-name: fade-in-up;
+    animation-duration: 1s;
+    animation-iteration-count: 1;
+    animation-timing-function: ease;
+    font-size: 10vmin;
+  }
+
+  .resetbtn{
+    height: 10vmin;
+    width: 50vmin;
+    font-size: 5vmin;
+  }
+
+  .spanksarea{
+    font-size: 8vmin;
+  }
+
+  @keyframes fade-in-up {
+    0%,
+    10% {
+      top: 80%;
+      opacity: 1;
+    }
+    100% {
+      top: 00%;
+      opacity: 0;
+    }
+  }
+
+  </style>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </head>
 
-<body style="background-color:#4f0156">
-<div style="text-align:center">
-	<button type="button" class="btn btn-lg">Pink</button>
-
+<body>
+<div class="container">
+  <p>Press the button if your dare... You'll either receive pleasure or pain</p>
+	<button class="btn pinkbtn">Please...</button>
+  <p class="spanksarea"><span id="spanksleft">0</span> Spanks left</p>
+  <button class="btn btn-secondary resetbtn">I've been spanked</button>
+  <p class="spanksarea">Spanked <span id="spankscount">0</span>  times</p>
 </div>
+
+<script>
+
+function freeze(){
+  $('.pinkbtn').attr('disabled', true);
+  $('.resetbtn').attr('disabled', true);
+}
+function unfreeze(){
+  $('.pinkbtn').attr('disabled', false);
+  $('.resetbtn').attr('disabled', false);
+}
+
+function randspanks(){
+  freeze();
+  var spanks = Math.floor(Math.random() * 10)+1;
+  var current_spanks = parseInt($("#spanksleft").html());
+  var new_tally = spanks+current_spanks;
+  var score = $('<span class="plus-one"/>', {style: 'display:none'});
+  score.html('+'+spanks+' spanks');
+  score.appendTo($('#spanksleft'));
+  setTimeout(function(){
+    score.remove();
+    $("#spanksleft").html(new_tally);
+    unfreeze();
+  }, 700);
+}
+
+$('.pinkbtn').on('click', function() {
+  randspanks();
+});
+</script>
+
+<script>
+$('.resetbtn').on('click', function() {
+  var current_spanks = parseInt($("#spanksleft").html());
+  msg = "Did you really get your "+current_spanks+" spanks?";
+  var answer = confirm(msg);
+  if(answer == true){
+    freeze();
+    var previous_spanks = parseInt($("#spankscount").html());
+    var total_spanks = current_spanks+previous_spanks;
+    var score = $('<span class="plus-one"/>', {style: 'display:none'});
+    score.html('-'+current_spanks);
+    score.appendTo($('#spanksleft'));
+    setTimeout(function(){
+      score.remove();
+      $("#spanksleft").html(0);
+      $("#spankscount").html(total_spanks);
+      alert('Good girl!');
+      window.navigator.vibrate(1000*current_spanks);
+      unfreeze();
+    }, 700);
+  }
+});
+</script>
 </body>
 </html>
+
